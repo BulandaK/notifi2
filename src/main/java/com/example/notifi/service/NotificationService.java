@@ -4,6 +4,7 @@ import com.example.notifi.dto.CreateNotificationRequest;
 import com.example.notifi.dto.NotificationResponse;
 import com.example.notifi.exception.InvalidScheduledTimeException;
 import com.example.notifi.exception.InvalidZoneException;
+import com.example.notifi.exception.NotificationNotFoundException;
 import com.example.notifi.model.Notification;
 import com.example.notifi.model.NotificationStatus;
 import com.example.notifi.repository.NotificationRepository;
@@ -52,7 +53,8 @@ public class NotificationService {
     }
 
     public Notification get(Long id) {
-        return notificationRepository.findById(id).orElseThrow();
+        return notificationRepository.findById(id)
+                .orElseThrow(() -> new NotificationNotFoundException("Notification not found"));
     }
 
     public List<Notification> getAll() {
