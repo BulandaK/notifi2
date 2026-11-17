@@ -9,8 +9,14 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 public class RabbitConfig {
 
-    public Queue hello(){
-        return QueueBuilder.durable("hello").quorum().build();
+    @Bean
+    public Queue email(){
+        return QueueBuilder.durable("email").quorum().build();
+    }
+
+    @Bean
+    public Queue push() {
+        return QueueBuilder.durable("push").quorum().build();
     }
 
 }
