@@ -12,6 +12,7 @@ public class EmailWorker {
 
     @RabbitListener(queues = RabbitConfig.EMAIL_QUEUE)
     public void handle(NotificationMessageDto message) {
+        log.info("EMAIL WORKER-----------------------");
         log.info("przyszło z kolejki o id - {} - {}", message.id(), message.content());
     }
 }

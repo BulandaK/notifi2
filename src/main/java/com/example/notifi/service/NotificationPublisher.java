@@ -1,9 +1,9 @@
 package com.example.notifi.service;
 
 import com.example.notifi.dto.NotificationMessageDto;
-import com.example.notifi.dto.NotificationResponse;
 import com.example.notifi.exception.NotificationNotFoundException;
 import com.example.notifi.mapper.NotificationMapper;
+import com.example.notifi.model.Channel;
 import com.example.notifi.model.Notification;
 import com.example.notifi.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,6 @@ public class NotificationPublisher {
     private final RabbitTemplate rabbitTemplate;
     private final DirectExchange directExchange;
     private final NotificationRepository notificationRepository;
-    private final NotificationMapper notificationMapper;
 
     public void publish(Long id) {
 
@@ -26,7 +25,8 @@ public class NotificationPublisher {
                 .orElseThrow(() -> new NotificationNotFoundException("Notification not found"));
 
         NotificationMessageDto messageDto = new NotificationMessageDto(notification.getId(),notification.getContent());
+        Channel channel = notification.getChannel();
 
-        rabbitTemplate.convertAndSend(directExchange.getName(),"EMAIL", messageDto);
+        rabbitTemplate.convertAndSend(directExchange.getName(),channel.toString(), messageDto);
     }
 }
