@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 public class RabbitConfig {
 
-    private static final String EMAIL_QUEUE = "email.queue";
-    private static final String PUSH_QUEUE = "push.queue";
+    public static final String EMAIL_QUEUE = "email.queue";
+    public static final String PUSH_QUEUE = "push.queue";
 
     @Bean
     public DirectExchange direct() {

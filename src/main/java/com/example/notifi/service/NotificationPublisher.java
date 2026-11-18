@@ -1,5 +1,6 @@
 package com.example.notifi.service;
 
+import com.example.notifi.dto.NotificationMessageDto;
 import com.example.notifi.dto.NotificationResponse;
 import com.example.notifi.exception.NotificationNotFoundException;
 import com.example.notifi.mapper.NotificationMapper;
@@ -24,8 +25,8 @@ public class NotificationPublisher {
         Notification notification = notificationRepository.findById(id)
                 .orElseThrow(() -> new NotificationNotFoundException("Notification not found"));
 
-        NotificationResponse dto = notificationMapper.toResponse(notification);
+        NotificationMessageDto messageDto = new NotificationMessageDto(notification.getId(),notification.getContent());
 
-        rabbitTemplate.convertAndSend(directExchange.getName(),"EMAIL", dto);
+        rabbitTemplate.convertAndSend(directExchange.getName(),"EMAIL", messageDto);
     }
 }
