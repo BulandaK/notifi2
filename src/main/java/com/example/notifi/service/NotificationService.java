@@ -1,7 +1,6 @@
 package com.example.notifi.service;
 
 import com.example.notifi.dto.CreateNotificationRequest;
-import com.example.notifi.dto.NotificationResponse;
 import com.example.notifi.exception.InvalidScheduledTimeException;
 import com.example.notifi.exception.InvalidZoneException;
 import com.example.notifi.exception.NotificationNotFoundException;

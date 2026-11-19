@@ -24,7 +24,7 @@ public class NotificationPublisher {
         Notification notification = notificationRepository.findById(id)
                 .orElseThrow(() -> new NotificationNotFoundException("Notification not found"));
 
-        NotificationMessageDto messageDto = new NotificationMessageDto(notification.getId(),notification.getContent());
+        NotificationMessageDto messageDto = new NotificationMessageDto(notification.getId(),notification.getContent(),notification.getPriority());
         Channel channel = notification.getChannel();
 
         rabbitTemplate.convertAndSend(directExchange.getName(),channel.toString(), messageDto);
