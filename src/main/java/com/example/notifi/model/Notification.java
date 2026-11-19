@@ -24,7 +24,7 @@ public class Notification {
     private Channel channel;
     @Enumerated(EnumType.STRING)
     private Priority priority;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private NotificationStatus status;
     private String content;
 
