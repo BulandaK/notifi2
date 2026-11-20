@@ -13,7 +13,8 @@ services:
       retries: 10
 
   rabbitmq:
-    image: rabbitmq:3.13-management
+    # 4.x: kolejki quorum obsługują priorytety wiadomości
+    image: rabbitmq:4.1-management
     ports: ["5672:5672", "15672:15672"]
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
@@ -40,6 +41,22 @@ services:
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_MAIN_WEB_APPLICATION_TYPE: none
       SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      NOTIFI_SIMULATION_FAILURE_RATE: "0.0"
     depends_on:
       postgres: { condition: service_healthy }
       rabbitmq: { condition: service_healthy }
+      api: { condition: service_started }
+
+  push-worker:
+    build: .
+    environment:
+      SPRING_PROFILES_ACTIVE: push-worker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/notifications
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_MAIN_WEB_APPLICATION_TYPE: none
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      NOTIFI_SIMULATION_FAILURE_RATE: "0.0"
+    depends_on:
+      postgres: { condition: service_healthy }
+      rabbitmq: { condition: service_healthy }
+      api: { condition: service_started }
