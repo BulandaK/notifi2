@@ -1,6 +1,7 @@
 package com.example.notifi.service;
 
 import com.example.notifi.model.Notification;
+import com.example.notifi.model.NotificationStatus;
 import com.example.notifi.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationDispatcher {
 
+    private static final int BATCH_SIZE = 50;
+
     private final NotificationRepository repository;
     private final NotificationPublisher publisher;
     private final Clock clock;
@@ -26,9 +29,12 @@ public class NotificationDispatcher {
     @Scheduled(fixedDelay = 5000)
     @Transactional
     public void dispatch() {
-        List<Notification> pendingNotifications = repository.lockDueNotifications(Instant.now(clock),50);
-        for (Notification notification : pendingNotifications) {
-            log.info(" przysla wiadomosc: {}", notification.getContent());
+        List<Notification> due = repository.lockDueNotifications(Instant.now(clock), BATCH_SIZE);
+        for (Notification notification : due) {
+            notification.setStatus(NotificationStatus.QUEUED);
+            publisher.publish(notification);
+            log.info("Zakolejkowano powiadomienie {} ({}, {})",
+                    notification.getId(), notification.getChannel(), notification.getPriority());
         }
     }
 }
