@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public record CreateNotificationRequest(
         @NotBlank String recipient,
-        String content,
+        @NotBlank String content,
         @NotNull Channel channel,
         Priority priority,
         @NotBlank String timeZone,

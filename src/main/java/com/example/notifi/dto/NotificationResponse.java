@@ -9,10 +9,15 @@ import java.time.ZonedDateTime;
 
 public record NotificationResponse(
         Long id,
+        String recipient,
+        String content,
         NotificationStatus status,
         Channel channel,
         Priority priority,
         Instant scheduledAtUtc,
-        ZonedDateTime scheduledAtLocal
+        ZonedDateTime scheduledAtLocal,
+        Instant originalScheduledAt,
+        Instant sentAt,
+        int attempts
 ) {
 }
