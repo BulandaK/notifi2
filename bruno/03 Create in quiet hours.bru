@@ -1,0 +1,34 @@
+meta {
+  name: Create in quiet hours
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "recipient": "nocny.marek@example.com",
+    "content": "Wyslane o 23:30 - powinno zostac przesuniete na 08:00",
+    "channel": "EMAIL",
+    "priority": "LOW",
+    "timeZone": "Europe/Warsaw",
+    "scheduledAt": "2026-12-01T23:30:00"
+  }
+}
+
+script:post-response {
+  if (res.status === 201) {
+    bru.setVar("notificationId", res.body.id);
+  }
+}
+
+tests {
+  test("status 201", () => expect(res.status).to.equal(201));
+  test("przesuniete na 08:00 nastepnego dnia", () => expect(res.body.scheduledAtLocal).to.contain("2026-12-02T08:00"));
+  test("zapamietany pierwotny termin", () => expect(res.body.originalScheduledAt).to.equal("2026-12-01T22:30:00Z"));
+}

@@ -1,0 +1,25 @@
+meta {
+  name: Create invalid zone (400)
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "recipient": "jan.kowalski@example.com",
+    "content": "Zla strefa czasowa",
+    "channel": "EMAIL",
+    "timeZone": "Mars/Olympus",
+    "scheduledAt": "2026-12-01T10:00:00"
+  }
+}
+
+tests {
+  test("status 400", () => expect(res.status).to.equal(400));
+}

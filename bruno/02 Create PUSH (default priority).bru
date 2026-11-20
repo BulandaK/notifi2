@@ -1,0 +1,32 @@
+meta {
+  name: Create PUSH (default priority)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "recipient": "device-token-123",
+    "content": "Testowe powiadomienie push",
+    "channel": "PUSH",
+    "timeZone": "Europe/Warsaw",
+    "scheduledAt": "2026-12-01T12:30:00"
+  }
+}
+
+script:post-response {
+  if (res.status === 201) {
+    bru.setVar("notificationId", res.body.id);
+  }
+}
+
+tests {
+  test("status 201", () => expect(res.status).to.equal(201));
+  test("domyslny priorytet LOW", () => expect(res.body.priority).to.equal("LOW"));
+}
