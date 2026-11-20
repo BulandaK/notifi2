@@ -21,7 +21,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
         """, nativeQuery = true)
     List<Notification> lockDueNotifications(@Param("now") Instant now, @Param("limit") int limit);
 
-    /** SELECT ... FOR UPDATE: blokuje wiersz do końca transakcji (worker, cancel, send-now). */
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select n from Notification n where n.id = :id")
     Optional<Notification> findByIdForUpdate(@Param("id") Long id);

@@ -54,7 +54,7 @@ class DeliveryServiceTest {
     void deliver_Duplicate_Skipped() {
         DeliveryService service = service(0.0);
         service.deliver(MESSAGE);
-        service.deliver(MESSAGE); // ta sama wiadomość drugi raz
+        service.deliver(MESSAGE);
 
         assertThat(notification.getAttempts()).isEqualTo(1);
     }
@@ -75,7 +75,7 @@ class DeliveryServiceTest {
 
         assertThatThrownBy(() -> service.deliver(MESSAGE)).isInstanceOf(DeliveryFailedException.class);
         assertThatThrownBy(() -> service.deliver(MESSAGE)).isInstanceOf(DeliveryFailedException.class);
-        service.deliver(MESSAGE); // trzecia próba: brak wyjątku, wiadomość zostaje zatwierdzona (ack)
+        service.deliver(MESSAGE);
 
         assertThat(notification.getAttempts()).isEqualTo(3);
         assertThat(notification.getStatus()).isEqualTo(NotificationStatus.FAILED);

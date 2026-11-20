@@ -9,10 +9,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-/**
- * Ciche godziny w lokalnej strefie odbiorcy (domyślnie 22:00–08:00).
- * Termin wypadający w nocy jest przesuwany na najbliższy koniec cichych godzin.
- */
 @Component
 public class QuietHoursPolicy {
 
