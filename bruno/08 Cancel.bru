@@ -1,0 +1,16 @@
+meta {
+  name: Cancel
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/{{notificationId}}/cancel
+  body: none
+  auth: none
+}
+
+tests {
+  test("status 200", () => expect(res.status).to.equal(200));
+  test("status CANCELLED", () => expect(res.body.status).to.equal("CANCELLED"));
+}

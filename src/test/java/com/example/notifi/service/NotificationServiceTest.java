@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneOffset;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,7 +39,11 @@ public class NotificationServiceTest {
     void setup() {
         this.clock = Clock.fixed(NOW, ZoneOffset.UTC);
         this.notificationRepository = Mockito.mock(NotificationRepository.class);
-        this.notificationService = new NotificationService(clock, notificationRepository);
+        this.notificationService = new NotificationService(
+                clock,
+                notificationRepository,
+                Mockito.mock(NotificationPublisher.class),
+                new QuietHoursPolicy(LocalTime.of(22, 0), LocalTime.of(8, 0)));
     }
 
     @Test

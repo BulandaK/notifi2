@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "notifications")
@@ -30,6 +29,8 @@ public class Notification {
 
     private String recipientZone;
     private Instant scheduledAt;
+
+    private Instant originalScheduledAt;
     private Instant createdAt;
     private Instant sentAt;
     private int attempts;

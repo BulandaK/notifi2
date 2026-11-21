@@ -1,0 +1,16 @@
+meta {
+  name: Get all
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("status 200", () => expect(res.status).to.equal(200));
+  test("lista", () => expect(res.body).to.be.an("array"));
+}

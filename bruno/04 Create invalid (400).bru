@@ -1,0 +1,23 @@
+meta {
+  name: Create invalid (400)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "recipient": "",
+    "content": "",
+    "timeZone": "Europe/Warsaw"
+  }
+}
+
+tests {
+  test("status 400", () => expect(res.status).to.equal(400));
+}

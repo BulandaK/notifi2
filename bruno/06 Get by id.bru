@@ -1,0 +1,15 @@
+meta {
+  name: Get by id
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/{{notificationId}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("status 200", () => expect(res.status).to.equal(200));
+}

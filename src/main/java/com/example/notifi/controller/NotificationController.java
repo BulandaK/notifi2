@@ -3,7 +3,6 @@ package com.example.notifi.controller;
 import com.example.notifi.dto.CreateNotificationRequest;
 import com.example.notifi.dto.NotificationResponse;
 import com.example.notifi.mapper.NotificationMapper;
-import com.example.notifi.service.NotificationPublisher;
 import com.example.notifi.service.NotificationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,17 +19,21 @@ public class NotificationController {
 
     private final NotificationService notificationService;
     private final NotificationMapper notificationMapper;
-    private final NotificationPublisher notificationPublisher;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public NotificationResponse create(@Valid @RequestBody CreateNotificationRequest request) {
-            return notificationMapper.toResponse(notificationService.create(request));
+        return notificationMapper.toResponse(notificationService.create(request));
     }
 
-    @PostMapping("/send/{id}")
-    public void send(@PathVariable Long id) {
-        notificationPublisher.publish(id);
+    @PostMapping("/{id}/send-now")
+    public NotificationResponse sendNow(@PathVariable Long id) {
+        return notificationMapper.toResponse(notificationService.sendNow(id));
+    }
+
+    @PostMapping("/{id}/cancel")
+    public NotificationResponse cancel(@PathVariable Long id) {
+        return notificationMapper.toResponse(notificationService.cancel(id));
     }
 
     @GetMapping("/{id}")

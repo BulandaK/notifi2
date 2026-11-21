@@ -1,0 +1,15 @@
+meta {
+  name: Get not existing
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/999999
+  body: none
+  auth: none
+}
+
+tests {
+  test("status 404", () => expect(res.status).to.equal(404));
+}
